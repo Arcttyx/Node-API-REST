@@ -1,0 +1,35 @@
+{
+  "name": "Node-API-REST",
+  "version": "1.0.0",
+  "description": "REST API in Node Js using Repository pattern and clean architecture",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arcttyx/Node-API-REST.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "gpl-3.0",
+  "bugs": {
+    "url": "https://github.com/Arcttyx/Node-API-REST/issues"
+  },
+  "homepage": "https://github.com/Arcttyx/Node-API-REST#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.12.4",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "eslint": "^7.29.0",
+    "eslint-config-standard-with-typescript": "^20.0.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "jest": "^27.0.4",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
+  }
+}
