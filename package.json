@@ -1,7 +1,7 @@
 {
-  "name": "Node-API-REST",
+  "name": "NodeJS",
   "version": "1.0.0",
-  "description": "REST API in Node Js using Repository pattern and clean architecture",
+  "description": "Node Js initial configurations with typescript and Jest",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -14,10 +14,6 @@
   "keywords": [],
   "author": "",
   "license": "gpl-3.0",
-  "bugs": {
-    "url": "https://github.com/Arcttyx/Node-API-REST/issues"
-  },
-  "homepage": "https://github.com/Arcttyx/Node-API-REST#readme",
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.4",

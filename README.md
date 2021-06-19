@@ -1,5 +1,5 @@
-# Node-API-REST
-REST API in Node Js using Repository pattern, typescript and clean architecture
+# Node-JS
+Node Js initial configurations with typescript and Jest
 
 
 npm init --y
