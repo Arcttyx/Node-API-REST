@@ -4,19 +4,12 @@
   "description": "Aplicación Node para la creación de un API REST",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Arcttyx/Node-API-REST.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Arcttyx/Node-API-REST/issues"
-  },
-  "homepage": "https://github.com/Arcttyx/Node-API-REST#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
