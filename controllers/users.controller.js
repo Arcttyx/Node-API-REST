@@ -105,9 +105,13 @@ const usersDelete = async(req, res = response) => {
     //Borrado lógico
     const user = await User.findByIdAndUpdate(id, {status: "INACTIVO"});
 
+    //Se recupera el usuario autenticado de la request
+    const autenticatedUser = req.user;
+
     res.json({
         result: true,
-        user
+        user,
+        autenticatedUser
     });
 }
 

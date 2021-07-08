@@ -57,7 +57,10 @@ const UserShema = Schema( {
 
 //Como el toString, pero para objetos
 UserShema.methods.toJSON = function() {
-    const { __v, password, ...userResponse } = this.toObject();
+    const { __v, password, _id, ...userResponse } = this.toObject();
+    
+    //En la BD si se usa _id, pero para la respuesta visualmente es uid
+    userResponse.uid = _id;
     return userResponse;
 }
 
