@@ -50,10 +50,12 @@ Recursos necesarios:
     contenido:
         PORT=8081
         MONGODB_CNN=[URL DE CONEXIÓN A MONGODB]
+        SECRET_OR_PRIVATE_KEY=[CLAVE_SUPER_SECRETA_PARA_JWT]
 
     Para el servidor se crea otro archivo .dev.env con el contenido:
         PORT=8080
         MONGO_CNN=
+        SECRET_OR_PRIVATE_KEY=
 
 > Crear el archivo app.js y el model server.js, que será el punto de entrada de la aplicación y el lugar donde estarán definida la configuración del servidor
 > Crear el directorio routes donde manejaremos las rutas de la aplicación
