@@ -1,5 +1,7 @@
 const Role = require('../models/role');
 const User = require('../models/user');
+const Category = require('../models/category');
+const Product = require('../models/product');
 
 /**
  * Archivo para definición de validaciones de campos contra la BD
@@ -34,8 +36,34 @@ const userExistsById = async( id ) => {
     }
 }
 
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////CATEGORÍA///////////////////////////////
+////////////////////////////////////////////////////////////////////////
+const categoryExistsById = async( id ) => {
+    //Verificar si el usuario existe en la BD por id
+    const categoryExist = await Category.findById( id );
+    if (!categoryExist) {
+        throw new Error(`La categoría con el id ${id} no existe`);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////PRODUCTOS///////////////////////////////
+////////////////////////////////////////////////////////////////////////
+const productExistsById = async( id ) => {
+    //Verificar si el usuario existe en la BD por id
+    const productExist = await Product.findById( id );
+    if (!productExist) {
+        throw new Error(`El producto con el id ${id} no existe`);
+    }
+}
+
 module.exports = {
     isValidRole,
     isEmailAlreadyTaken,
-    userExistsById
+    userExistsById,
+
+    categoryExistsById,
+
+    productExistsById
 }
