@@ -58,6 +58,21 @@ const productExistsById = async( id ) => {
     }
 }
 
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////OTHERS///////////////////////////////
+////////////////////////////////////////////////////////////////////////
+//VALIDAR COLECCIONES PERMITIDAS PARA SUBIR ARCHIVOS
+const isCollectionAllowed = (collection = '', collections = []) => {
+    const isInCollections = collections.includes(collection);
+    if (!isInCollections) {
+        throw new Error(`La colección ${collection} no es permitida`);
+    }
+
+    return true;
+}
+
+
 module.exports = {
     isValidRole,
     isEmailAlreadyTaken,
@@ -65,5 +80,7 @@ module.exports = {
 
     categoryExistsById,
 
-    productExistsById
+    productExistsById,
+
+    isCollectionAllowed
 }

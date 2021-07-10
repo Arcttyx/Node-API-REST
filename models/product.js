@@ -35,6 +35,9 @@ const ProductSchema = Schema({
         required: [true, 'La unidad es obligatoria'],
         default: 'UNIDAD'
     },
+    img: {
+        type: String,
+    },
     created_at: {
         type: Date,
         default: Date.now()
