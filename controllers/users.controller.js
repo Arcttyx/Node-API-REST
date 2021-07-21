@@ -2,10 +2,12 @@ const { response, request } = require('express');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 
+const { generateJWT } = require('../helpers/generate-jwt');
+
 /**
- * Procesamiento para obtener los egistros del modelo User de forma paginada
- * @param {*} req 
- * @param {*} res 
+ * Procesamiento para obtener los registros ACTIVOS del modelo User de forma paginada
+ * Por default regresará los primeros 5 registros
+ * Devuelve también el total de registros
  */
 const usersGet = async(req = request, res = response) => {
 
@@ -23,7 +25,7 @@ const usersGet = async(req = request, res = response) => {
         .skip(Number(skip))
     ]);
 
-    res.json({
+    return res.json({
         result: true,
         totalUsers,
         users
@@ -34,8 +36,8 @@ const usersGet = async(req = request, res = response) => {
  * Procesamiento de las peticiones POST referentes al modelo User
  * Asume que ya se validaron los campos obligatorios desde user.routes
  * así como la validación unique del correo
- * @param {*} req 
- * @param {*} res 
+ * Crea el registro del usuario en la BD, cifra la constraseña y genera un jwt
+ * Devuelve el usuario creado y el token generado
  */
 const usersPost = async(req, res = response) => {
 
@@ -51,13 +53,18 @@ const usersPost = async(req, res = response) => {
     const salt = bcrypt.genSaltSync();
     user.password = bcrypt.hashSync(password, salt);
 
-    //Guardar el regstro en BD
-    await user.save();
+    //Guardar el regstro en BD y generar el jwtToken
+    //await user.save();
+    let token;
+    await user.save().then( async(savedDoc) => {
+        token = await generateJWT( savedDoc.id );
+    });
 
     //Se manda de respuesta el resultado de la operación y el usuario convertido a json
-    res.json({
+    return res.status(201).json({
         result: true,
-        user
+        user,
+        token
     });
 }
 
@@ -65,9 +72,10 @@ const usersPost = async(req, res = response) => {
 /**
  * Procesamiento de las peticiones PUT referentes al modelo User
  * Asume que ya se validaron los campos obligatorios desde user.routes
- * así como que el id recibidoen los parámetros de la ruta sea un id de mongo válido
- * @param {*} req 
- * @param {*} res 
+ * así como que el id recibido en los parámetros de la ruta sea un id de mongo válido
+ * Si viene el password, se cifra nuevamente
+ * Se actualiza la fecha de última actualización a la actual
+ * Se devuelve el usuario actualizado
  */
 const usersPut = async(req, res = response) => {
 
@@ -89,12 +97,17 @@ const usersPut = async(req, res = response) => {
     userData.updated_at = Date.now();
     const user = await User.findByIdAndUpdate(id, userData);
 
-    res.json({
+    return res.json({
         result: true,
         user
     });
 }
 
+/**
+ * Procesamiento de las peticiones DELETE referentes al modelo User
+ * Realiza la baja lógica del registro
+ * Actualiza el estatus del usuario a INCATIVO
+ */
 const usersDelete = async(req, res = response) => {
     //Obtenemos de forma destructurada los parámetros de la URL/10/nombre
     const { id } = req.params;
@@ -108,25 +121,17 @@ const usersDelete = async(req, res = response) => {
     //Se recupera el usuario autenticado de la request
     const autenticatedUser = req.user;
 
-    res.json({
+    return res.json({
         result: true,
         user,
         autenticatedUser
     });
 }
 
-const usersPatch = (req, res = response) => {
-    res.json({
-        msg: 'patch API - usersPatch'
-    });
-}
-
-
-
+//Se exportan todas las funciones del controlador de usuario para su disponibilidad en los archivos de rutas
 module.exports = {
     usersGet,
     usersPost,
     usersPut,
-    usersPatch,
     usersDelete,
 }

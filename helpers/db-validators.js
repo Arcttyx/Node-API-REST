@@ -1,7 +1,7 @@
-const Role = require('../models/role');
-const User = require('../models/user');
+const Role     = require('../models/role');
+const User     = require('../models/user');
 const Category = require('../models/category');
-const Product = require('../models/product');
+const Product  = require('../models/product');
 
 /**
  * Archivo para definición de validaciones de campos contra la BD
@@ -12,6 +12,10 @@ const Product = require('../models/product');
 ///////////////////////////////////USER/////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+/**
+ * Función que valida que el rol enviado es uno de los registrados en la BD
+ * @param {String} role_name 
+ */
 const isValidRole = async(role_name = '') => {
     //Validar el rol que viene contra los registrados en la BD
     const roleExists = await Role.findOne({ role: role_name });
@@ -20,6 +24,10 @@ const isValidRole = async(role_name = '') => {
     }
 };
 
+/**
+ * Función que valida la existencia de un correo en la tabla de usuarios
+ * @param {String} email 
+ */
 const isEmailAlreadyTaken = async(email = '') => {
     //Validar que no se puedan registrar dos usuarios con el mismo correo
     emailExist = await User.findOne({ email: email });
@@ -28,6 +36,10 @@ const isEmailAlreadyTaken = async(email = '') => {
     }
 }
 
+/**
+ * Función que valida la existencia de un usuario por el id enviado
+ * @param {*} id 
+ */
 const userExistsById = async( id ) => {
     //Verificar si el usuario existe en la BD por id
     const userExist = await User.findById( id );
@@ -39,6 +51,11 @@ const userExistsById = async( id ) => {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////CATEGORÍA///////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+
+/**
+ * Función que valida la existencia de una categiría por el id enviado
+ * @param {*} id 
+ */
 const categoryExistsById = async( id ) => {
     //Verificar si el usuario existe en la BD por id
     const categoryExist = await Category.findById( id );
@@ -50,6 +67,11 @@ const categoryExistsById = async( id ) => {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////PRODUCTOS///////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+
+/**
+ * Función que valida la existencia de un producto por el id enviado
+ * @param {*} id 
+ */
 const productExistsById = async( id ) => {
     //Verificar si el usuario existe en la BD por id
     const productExist = await Product.findById( id );
@@ -62,7 +84,13 @@ const productExistsById = async( id ) => {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////OTHERS///////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-//VALIDAR COLECCIONES PERMITIDAS PARA SUBIR ARCHIVOS
+
+/**
+ * Función que revisa si la colección enviada esta permitida para la subida de archivos
+ * @param {String} collection 
+ * @param {Array[String]} collections 
+ * @returns 
+ */
 const isCollectionAllowed = (collection = '', collections = []) => {
     const isInCollections = collections.includes(collection);
     if (!isInCollections) {

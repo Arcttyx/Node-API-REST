@@ -4,6 +4,13 @@ const { v4: uuidv4 } = require('uuid');
 const defaultExtensions = ['png', 'jpg', 'jpeg'];
 //const allowedDirOutputs = ['users', 'products'];
 
+/**
+ * 
+ * @param {*} files request.files de la petición
+ * @param {*} validExtensions Extensiones válidas petmitidas
+ * @param {*} outputDirectory Directorio de salida donde se alojará el archivo/imagen
+ * @returns Nombre del archivo generado para el archivo/imagen
+ */
 const fileUpload = ( files, validExtensions = defaultExtensions, outputDirectory = '' ) => {
 
     return new Promise( (resolve, reject) => {
@@ -14,11 +21,11 @@ const fileUpload = ( files, validExtensions = defaultExtensions, outputDirectory
         const filename = uploadedFile.name.split('.');
         const extension = filename[ filename.length -1 ];
         if (!validExtensions.includes(extension)) {
-            return reject(`La extensión ${extension} no es válida`);
+            reject(`La extensión ${extension} no es válida`);
         }
 
         // if (outputDirectory && !allowedDirOutputs.includes(outputDirectory)) {
-        //     return reject(`El directorio ${outputDirectory} especificado no es váido`);
+        //     reject(`El directorio ${outputDirectory} especificado no es váido`);
         // }
 
         //Renombrar archivo de forma única usando uuid package

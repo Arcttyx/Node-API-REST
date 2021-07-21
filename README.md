@@ -1,19 +1,11 @@
 # Node-API-REST
 Aplicación Node para la creación de un API REST
 
-Recursos necesarios:
-* VSCode
-* * Extensiones
-* * * https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2
-* * * https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme
-
-* Postman o Thunder client VS Extensión para probar los endpoints
-
-* Git > 2.3 (2.30.1) usada para este proyecto
+* Git > 2.3
     git config --global user.name "Tu nombre"
     git config --global user.email "Tu correo"
 
-* Node versión estable (14.17.1) usada para este proyecto
+* Node versión estable (14.17.+)
 * * Paquetes
 * * * Nodemon (Instalar en una terminal con permisos de administrador en windows o anteponiendo sudo en linux o mac)
         npm install -g nodemon
@@ -24,15 +16,15 @@ Recursos necesarios:
 # Descargar y reconstruir las dependencias para usar el proyecto
 > npm install
 
-# Trabajar con  git desde VSCode
+# Trabajar con git desde VSCode
 > git init
 > git checkout -- .                     Volver a dejar el proyecto en su última versión del repositorio
 > git add .                             Preparar archivos para commit
 > git commit -m "Mensaje del commit"    Realizar Commit
 
 # Trabajar con Heroku
-> git branch
-> git push heroku main                          Publicar cambios a heroku
+> git branch                                    Para saber el nombre de la rama
+> git push heroku main                          Publicar cambios a heroku (main/master)
 
 * * Establecer variables de entorno en heroku
 > heroku config                                 Para ver las variables de entorno configuradas
@@ -53,7 +45,7 @@ Recursos necesarios:
     Este archivo solo servirá para pruebas locales, ya que se está ignorando para subir al repositorio y por ende al servidor
 
     Contenido:
-        PORT=8081
+        PORT=8080
         MONGODB_CNN=[URL DE CONEXIÓN A MONGODB]
         SECRET_OR_PRIVATE_KEY=[CLAVE_SUPER_SECRETA_PARA_JWT]
 

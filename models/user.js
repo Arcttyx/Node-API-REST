@@ -1,23 +1,28 @@
 const { Schema, model } = require('mongoose');
 
+//Definición del modelo User
 const UserShema = Schema( {
     catalog_role_id: {
         type: String,
         required: true,
-        //enum: ['ADMIN', 'SELLER', 'DELIVERY', 'CUSTOMER']
+        //enum: ['ADMIN', 'SELLER', 'DELIVERY', 'CUSTOMER']     //Se valida contra la BD
     },
     name: {
         type: String,
-        required: [true, 'El nombre es obligatorio']
+        required: [true, 'El nombre es obligatorio'],
+        trim: true,
     },
     paternal_last_name: {
         type: String,
+        trim: true,
     },
     maternal_last_name: {
         type: String,
+        trim: true,
     },
     phone: {
         type: String,
+        trim: true,
     },
     level: {
         type: String,
@@ -27,7 +32,8 @@ const UserShema = Schema( {
     email: {
         type: String,
         required: [true, 'El correo es obligatorio'],
-        unique: true
+        unique: true,
+        trim: true,
     },
     password: {
         type: String,
@@ -55,7 +61,7 @@ const UserShema = Schema( {
     },
 });
 
-//Como el toString, pero para objetos
+//Sobre-escribimos el formato de salida JSON de un objeto de este Modelo
 UserShema.methods.toJSON = function() {
     const { __v, password, _id, ...userResponse } = this.toObject();
     
@@ -64,4 +70,5 @@ UserShema.methods.toJSON = function() {
     return userResponse;
 }
 
+//El modelo estará disponible bajo el nombre User
 module.exports = model('User', UserShema);

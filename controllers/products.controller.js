@@ -2,7 +2,9 @@ const { response } = require('express');
 const Product = require('../models/product');
 
 /**
- * Procesamiento para obtener los egistros del modelo Product de forma paginada
+ * Procesamiento para obtener los registros del modelo Product de forma paginada
+ * Por defecto devuelve los primeros 5 registros con estatus de 'DISPONIBLE', 'AGOTADO' o 'DESHABILITADO'
+ * Devuelve los registros y el total de registros
  */
  const getProducts = async(req = request, res = response) => {
 
@@ -21,7 +23,7 @@ const Product = require('../models/product');
         .populate('category', 'name')   //join y solo mostrar el nombre de la categoría
     ]);
 
-    res.json({
+    return res.json({
         result: true,
         totalProducts,
         products
@@ -30,6 +32,8 @@ const Product = require('../models/product');
 
 /**
  * Procesamiento para obtener un registro por id del modelo Product
+ * Asume que ya se buscó que el registro con ese id exista en la BD en product.routes
+ * Devuelve el producto encontrado con su categoría asociada
  */
  const getProduct = async(req = request, res = response) => {
 
@@ -38,12 +42,19 @@ const Product = require('../models/product');
 
     const product = await Product.findById(id).populate('category', 'name');
 
-    res.json({
+    return res.json({
         result: true,
         product
     });
 }
 
+/**
+ * Procesamiento de las peticiones POST referentes al modelo Product
+ * Asume que ya se validaron los campos obligatorios desde product.routes
+ * Pasa a mayúscula el nombre del producto para validar que no se registren nombres repetidos
+ * Crea el registro del producto en la BD
+ * Devuelve el producto creado
+ */
 const createProduct = async(req, res = response) => {
     //Obtenemos de forma destructurada los argumentos que vengan del POST
     const {created_at, updated_at, ...productData} = req.body;
@@ -53,6 +64,7 @@ const createProduct = async(req, res = response) => {
 
     if (productInBD) {
         return res.status(400).json({
+            result: false,
             msg: `El producto ${nameProduct} ya existe`
         });
     }
@@ -64,13 +76,16 @@ const createProduct = async(req, res = response) => {
     //Guardar en BD
     await product.save();
 
-    res.status(201).json(product);
+    return res.status(201).json({
+        result: true,
+        product
+    });
 }
 
 /**
  * Procesamiento de las peticiones PUT referentes al modelo User
  * Asume que ya se validaron los campos obligatorios desde user.routes
- * así como que el id recibidoen los parámetros de la ruta sea un id de mongo válido
+ * así como que el id recibido en los parámetros de la ruta sea un id de mongo válido
  */
  const updateProduct = async(req, res = response) => {
 
@@ -87,6 +102,7 @@ const createProduct = async(req, res = response) => {
 
         if (productInBD) {
             return res.status(400).json({
+                result: false,
                 msg: `El producto ${nameProduct} ya existe`
             });
         }
@@ -98,12 +114,19 @@ const createProduct = async(req, res = response) => {
     productData.updated_at = Date.now();
     const product = await Product.findByIdAndUpdate(id, productData, {new: true} );
 
-    res.json({
+    return res.json({
         result: true,
         product
     });
 }
 
+
+/**
+ * Procesamiento de las peticiones DELETE referentes al modelo Product
+ * asume que el id recibido en los parámetros de la ruta sea un id de mongo válido
+ * que el registro con ese id exista en la BD
+ * y se hace el borrado lógico del registro en la BD en caso de tener éxito
+ */
 const deleteProduct = async(req, res = response) => {
     //Obtenemos de forma destructurada los parámetros de la URL/10/nombre
     const { id } = req.params;
@@ -114,12 +137,13 @@ const deleteProduct = async(req, res = response) => {
     //Borrado lógico
     const product = await Product.findByIdAndUpdate(id, {status: 'ELIMINADO'}, {new:true});
 
-    res.json({
+    return res.json({
         result: true,
         product
     });
 }
 
+//Se exportan las funciones para su disponibilidad en los archivos de rutas
 module.exports = {
     getProducts,
     getProduct,

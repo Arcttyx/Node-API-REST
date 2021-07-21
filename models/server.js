@@ -9,6 +9,8 @@ class Server {
         this.app  = express();
         this.port = process.env.PORT;
 
+        //Rutas raiz de los endpoints
+        //Se completan con base en las funciones creadas en sus respectivos routes
         this.searchPath = '/api/search';
         this.usersPath = '/api/users';
         this.categoriesPath = '/api/categories';
@@ -19,7 +21,7 @@ class Server {
         //Conectar BD
         this.conectarDB();
 
-        //Middlewares
+        //Se configuran todos los Middlewares externos
         this.middlewares();
 
         //Definición de rutas de la aplicación
@@ -28,7 +30,7 @@ class Server {
 
     async conectarDB() {
         //Aqui podría ir lógica para conectar a una u otro ambiente de BD
-        //segun los env
+        //segun las configuraciones dentro del archivo env
         await dbConnection();
     }
 
@@ -50,6 +52,8 @@ class Server {
         }));
     }
 
+    //Rutas que sirven para definir los endpoints válidos
+    //De aquí hay que moverse al directorio routes/
     routes() {
         this.app.use(this.authPath, require('../routes/auth.routes'));
         this.app.use(this.uploadsPath, require('../routes/upload.routes'));
@@ -59,6 +63,7 @@ class Server {
         this.app.use(this.productsPath, require('../routes/product.routes'));
     }
 
+    //Inicia la ejecución de la aplicación
     listen() {
         this.app.listen( this.port, () => {
             console.log(`Servidor corriendo en ${this.port}`);

@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 
+//Definición del modelo Product
 const ProductSchema = Schema({
     catalog_product_category_id: {
         type: Schema.Types.ObjectId,
@@ -11,7 +12,6 @@ const ProductSchema = Schema({
         required: [true, 'El nombre es obligatorio.'],
         unique: true,
         trim: true,
-        uniqueCaseInsensitive: true
     },
     description: {
         type: String,
@@ -48,11 +48,12 @@ const ProductSchema = Schema({
     },
 });
 
-//Como el toString, pero para objetos
+//Sobre-escribimos el formato de salida JSON de un objeto de este Modelo
 ProductSchema.methods.toJSON = function() {
     const { __v, status, ...productResponse } = this.toObject();
 
     return productResponse;
 }
 
+//El modelo estará disponible bajo el nombre Product
 module.exports = model( 'Product', ProductSchema );
